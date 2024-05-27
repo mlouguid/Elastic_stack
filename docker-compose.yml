@@ -1,0 +1,70 @@
+version: '3.7'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.1
+    container_name: elasticsearch
+    environment:
+      - "ES_JAVA_OPTS=-Xmx2g -Xms2g"
+      - "discovery.type=single-node"
+      - "xpack.security.enabled=true"
+      - "ELASTIC_USERNAME=elastic"
+      - "ELASTIC_PASSWORD=LmoajdEd"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+      - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - "9200:9200"
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "3"
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.16.1
+    container_name: logstash
+    volumes:
+      - ./logstash/conf.d:/usr/share/logstash/config/conf.d
+      - ./logstash/jvm.options:/usr/share/logstash/config/jvm.options
+      - ./logstash/log4j2.properties:/usr/share/logstash/config/log4j2.properties
+      - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/pipeline/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+      - ./logstash/patterns:/usr/share/logstash/patterns
+      - ./logstash/templates:/usr/share/logstash/templates
+      - ./logstash/logstash-data:/var/lib/logstash
+      - ./logstash/logstash-data/logs:/var/log/logstash
+
+    ports:
+      - "9600:9600"
+      - "5014:5014/udp"
+    depends_on:
+      - elasticsearch
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "3"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.16.1
+    container_name: kibana
+    environment:
+      - "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
+      - "ELASTICSEARCH_USERNAME=elastic"
+      - "ELASTICSEARCH_PASSWORD=LmoajdEd"
+      - "xpack.license.self_generated.type=basic"
+
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "3"
+
+volumes:
+  elasticsearch-data:
+
