@@ -1,0 +1,4 @@
+cluster.name: "docker-cluster"
+network.host: 0.0.0.0
+xpack.license.self_generated.type: basic
+cluster.max_shards_per_node: 2000
