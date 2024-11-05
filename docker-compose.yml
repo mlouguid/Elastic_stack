@@ -9,7 +9,7 @@ services:
       - "discovery.type=single-node"
       - "xpack.security.enabled=true"
       - "ELASTIC_USERNAME=elastic"
-      - "ELASTIC_PASSWORD=LmoajdEd"
+      - "ELASTIC_PASSWORD=elastic"
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
       - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
@@ -25,16 +25,8 @@ services:
     image: docker.elastic.co/logstash/logstash:7.16.1
     container_name: logstash
     volumes:
-      - ./logstash/conf.d:/usr/share/logstash/config/conf.d
-      - ./logstash/jvm.options:/usr/share/logstash/config/jvm.options
-      - ./logstash/log4j2.properties:/usr/share/logstash/config/log4j2.properties
-      - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
-      - ./logstash/pipeline/pipelines.yml:/usr/share/logstash/config/pipelines.yml
-      - ./logstash/patterns:/usr/share/logstash/patterns
-      - ./logstash/templates:/usr/share/logstash/templates
-      - ./logstash/logstash-data:/var/lib/logstash
-      - ./logstash/logstash-data/logs:/var/log/logstash
-
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,Z
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro,Z
     ports:
       - "9600:9600"
       - "5014:5014/udp"
@@ -52,7 +44,7 @@ services:
     environment:
       - "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
       - "ELASTICSEARCH_USERNAME=elastic"
-      - "ELASTICSEARCH_PASSWORD=LmoajdEd"
+      - "ELASTICSEARCH_PASSWORD=elastic"
       - "xpack.license.self_generated.type=basic"
 
     ports:
@@ -67,4 +59,3 @@ services:
 
 volumes:
   elasticsearch-data:
-
