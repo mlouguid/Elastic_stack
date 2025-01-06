@@ -28,13 +28,7 @@ services:
       - "LS_JAVA_OPTS=-Xms108m -Xmx108m"
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,Z
-      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro,Z
-      - ./logstash/patterns:/usr/share/logstash/patterns
-      - ./logstash/templates:/usr/share/logstash/templates
-      - ./logstash/logstash-data:/var/lib/logstash
-      - ./logstash/logstash-data/logs:/var/log/logstash
     ports:
-      - "9600:9600"
       - "5014:5014/udp"
     depends_on:
       - elasticsearch
