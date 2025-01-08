@@ -1,56 +1,59 @@
 version: '3.7'
-
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.0
     container_name: elasticsearch
     environment:
-      - "ES_JAVA_OPTS=-Xmx1g -Xms1g"
-      - "discovery.type=single-node"
+      - node.name=elasticsearch
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - xpack.security.audit.enabled=true
+ #     - ELASTIC_PASSWORD=elastic_password123 # Change this password
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
-      - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - "9200:9200"
-    logging:
-      driver: json-file
-      options:
-        max-size: "100m"
-        max-file: "3"
-
-  logstash:
-    image: docker.elastic.co/logstash/logstash:7.16.1
-    container_name: logstash
-    environment:
-      - "LS_JAVA_OPTS=-Xms108m -Xmx108m"
-    volumes:
-      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,Z
-    ports:
-      - "5014:5014"
-    depends_on:
-      - elasticsearch
-    logging:
-      driver: json-file
-      options:
-        max-size: "100m"
-        max-file: "3"
+    networks:
+      - elk
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.16.1
+    image: docker.elastic.co/kibana/kibana:8.17.0
     container_name: kibana
     environment:
-      - "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
-      - "xpack.license.self_generated.type=basic"
-
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+  #    - ELASTICSEARCH_USERNAME=elastic
+  #    - ELASTICSEARCH_PASSWORD=elastic_password123 # Same as Elasticsearch
     ports:
       - "5601:5601"
+    networks:
+      - elk
     depends_on:
       - elasticsearch
-    logging:
-      driver: json-file
-      options:
-        max-size: "100m"
-        max-file: "3"
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.17.0
+    container_name: logstash
+    environment:
+      - LS_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - ./elk/logstash/config/logstash.conf:/usr/share/logstash/config/logstash.conf:ro,Z
+      - ./elk/logstash/config/jvm.options:/usr/share/logstash/config/jvm.options:ro,Z
+    ports:
+      - "5044:5044"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
 
 volumes:
   elasticsearch-data:
+    driver: local
+
+networks:
+  elk:
+    driver: bridge
