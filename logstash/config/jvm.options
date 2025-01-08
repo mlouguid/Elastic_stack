@@ -1,0 +1,6 @@
+# JVM configuration
+-Xms128m
+-Xmx128m
+
+## GC configuration
+-XX:+UseG1GC
