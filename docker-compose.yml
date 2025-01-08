@@ -50,6 +50,17 @@ services:
     depends_on:
       - elasticsearch
 
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.17.0
+    container_name: filebeat
+    user: root
+    volumes:
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
 volumes:
   elasticsearch-data:
     driver: local
