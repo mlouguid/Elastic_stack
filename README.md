@@ -1,4 +1,4 @@
-# ELK Stack Project
+# ELK Stack 
 
 This project sets up an ELK (Elasticsearch, Logstash, Kibana) stack using Docker and Docker Compose.
 
@@ -8,7 +8,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ### Prerequisites
 
-Make sure you have the following software installed:
+Make sure you have this software installed:
 
 - [Git](https://git-scm.com/)
 - [Docker](https://www.docker.com/)
