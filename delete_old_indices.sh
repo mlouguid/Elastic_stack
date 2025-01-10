@@ -4,8 +4,8 @@
 ELASTICSEARCH_HOST="localhost"
 ELASTICSEARCH_PORT="9200"
 USERNAME="elastic"
-PASSWORD="LmoajdEd"
-INDEX_PREFIX="mikrotik-"
+PASSWORD="elastic"
+INDEX_PREFIX="index-*"
 
 # Nombre maximum d'index à conserver
 MAX_INDICES=20
