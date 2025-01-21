@@ -23,3 +23,4 @@ Make sure you have this software installed:
    cd ELK
    docker-compose up -d
    ```
+You are ready to go now to: http://localhost:5601
