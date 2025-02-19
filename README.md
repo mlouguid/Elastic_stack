@@ -19,7 +19,7 @@ Make sure you have this software installed:
 1. **Clone the repository:**
 
    ```
-   git clone https://github.com/mlouguid/ELK.git
+   git clone https://github.com/mlouguid/Elastic_stack.git ELK
    cd ELK
    docker-compose up -d
    ```
