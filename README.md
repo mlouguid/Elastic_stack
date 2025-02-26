@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="static/img/image_elk.png" width="600">
+</p>
+
 # ELK Stack 
 
 This project sets up an ELK (Elasticsearch, Logstash, Kibana) stack using Docker and Docker Compose.
