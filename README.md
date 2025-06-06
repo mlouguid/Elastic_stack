@@ -28,3 +28,5 @@ Make sure you have this software installed:
    docker-compose up -d
    ```
 You are ready to go now to: http://localhost:5601
+
+[Deploy ELK Stack with Docker Compose and filebeat – clean test setup](https://medium.com/@marouanetester/deploying-elk-stack-using-docker-compose-6fd0978a3b0a)
