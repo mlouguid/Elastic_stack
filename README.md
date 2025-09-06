@@ -6,6 +6,8 @@
 
 This project sets up an ELK (Elasticsearch, Logstash, Kibana) stack using Docker and Docker Compose.
 
+Medium [Runbook](https://medium.com/@marouanetester/deploying-elk-stack-using-docker-compose-6fd0978a3b0a)
+
 ## Getting Started
 
 Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
